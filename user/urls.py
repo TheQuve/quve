@@ -6,7 +6,7 @@ app_name = "user"
 
 urlpatterns = [
     url(
-        regex=r'^v1/login/facebook/$',
+        regex=r'^login/facebook/$',
         view=FacebookLogin.as_view(),
         name='facebook_login'
     )
