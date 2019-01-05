@@ -6,15 +6,15 @@ django|django-channels|django-webrtc|signalling server|webrtc|django video chat
 
 ## Installation
 ```
-git clone https://github.com/aibaq/django_webrtc_chat
-cd django_webrtc_chat
+git clone https://github.com/TheQuve/quve
+cd quve
 pip install -r requirements.txt
 ```
 
 ## Run
 ```
-daphne -e ssl:8000:privateKey=key.pem:certKey=cert.pem django_webrtc_chat.asgi:application
-https://localhost:8000/core/room_name/
+daphne -e ssl:8000:privateKey=key.pem:certKey=cert.pem config.asgi:application
+https://localhost:8000/webrtc/room_name/
 ```
 
 ## TLS
