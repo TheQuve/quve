@@ -20,7 +20,7 @@ function pageReady() {
   localVideo = document.getElementById('localVideo');
   remoteVideo = document.getElementById('remoteVideo');
 
-  serverConnection = new WebSocket('wss://172.30.1.44:8000/ws/' + room + '/');
+  serverConnection = new WebSocket('wss://127.0.0.1:8000/ws/' + room + '/');
   console.log(serverConnection);
   serverConnection.onmessage = gotMessageFromServer;
 

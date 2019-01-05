@@ -1,8 +1,8 @@
 from django.apps import AppConfig
 
 
-class ApiConfig(AppConfig):
-    name = 'quve.api'
+class UserConfig(AppConfig):
+    name = 'user'
 
     def ready(self):
         """Override this to put in:

@@ -40,8 +40,10 @@ class BaseConfiguration(Configuration):
     ]
 
     LOCAL_APPS = [
-        'quve.webrtc.apps.WebrtcConfig',
-        'quve.api.apps.ApiConfig',
+        'user',
+        'answer',
+        'question',
+        'webrtc'
     ]
 
     INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -142,7 +144,7 @@ class BaseConfiguration(Configuration):
         'allauth.account.auth_backends.AuthenticationBackend',
     ]
     # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
-    AUTH_USER_MODEL = 'api.User'
+    AUTH_USER_MODEL = 'user.User'
 
     # django-allauth
     # ------------------------------------------------------------------------------
@@ -157,9 +159,9 @@ class BaseConfiguration(Configuration):
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
     ACCOUNT_EMAIL_VERIFICATION = None
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
-    ACCOUNT_ADAPTER = 'quve.api.adapters.AccountAdapter'
+    ACCOUNT_ADAPTER = 'user.adapters.AccountAdapter'
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
-    SOCIALACCOUNT_ADAPTER = 'quve.api.adapters.SocialAccountAdapter'
+    SOCIALACCOUNT_ADAPTER = 'user.adapters.SocialAccountAdapter'
 
     # Your common stuff: Below this line define 3rd party library settings
 
@@ -218,7 +220,7 @@ class BaseConfiguration(Configuration):
     }
 
     REST_AUTH_REGISTER_SERIALIZERS = {
-        'REGISTER_SERIALIZER': 'quve.api.serializers.SignUpSerializer'
+        'REGISTER_SERIALIZER': 'user.serializers.SignUpSerializer'
     }
 
 

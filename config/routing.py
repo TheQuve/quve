@@ -1,6 +1,6 @@
 from channels.auth import AuthMiddlewareStack
 from channels.routing import ProtocolTypeRouter, URLRouter
-from quve.webrtc import routing
+from webrtc import routing
 
 
 application = ProtocolTypeRouter({

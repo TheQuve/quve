@@ -23,8 +23,8 @@ from config import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('webrtc/', include('quve.webrtc.urls', namespace='webrtc')),
-    path('api/', include('quve.api.urls', namespace='api')),
+    path('webrtc/', include('webrtc.urls', namespace='webrtc')),
+    path('api/user', include('user.urls', namespace='api')),
     url(
         regex='^rest-auth/',
         view=include('rest_auth.urls')

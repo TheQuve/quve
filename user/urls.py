@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
-from quve.api.views.user import FacebookLogin
+from .views import FacebookLogin
 
-app_name = "api"
+app_name = "user"
 
 urlpatterns = [
     url(
