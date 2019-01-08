@@ -26,6 +26,7 @@ django-configurations==2.1
 django-cors-headers==2.4.0
 django-environ==0.4.5
 django-rest-auth==0.9.3
+django-rest-knox==3.6.0
 django-sslserver==0.20
 django-timezone-field==3.0
 djangorestframework==3.9.0
@@ -52,7 +53,6 @@ oauthlib==2.1.0
 olefile==0.46
 paramiko==2.4.2
 Pillow==5.3.0
-pkg-resources==0.0.0
 psycopg2==2.7.5
 psycopg2-binary==2.7.6.1
 pyasn1==0.4.4

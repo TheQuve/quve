@@ -2,26 +2,48 @@ from typing import Dict, Any
 
 from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
+from django.contrib.auth import authenticate
 from rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from . import models
+
+from user.models import User
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
-
-    post_count = serializers.ReadOnlyField()
-    followers_count = serializers.ReadOnlyField()
-    following_count = serializers.ReadOnlyField()
-
+class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.User
-        fields = (
-            'profile_image',
-            'username',
-            'name',
-            'bio',
-            'website',
-            'tags',
+        model = User
+        fields = ("id", "username", "password")
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            validated_data["username"], None, validated_data["password"]
+        )
+        return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username")
+
+
+class LoginUserSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError(
+            "Unable to log in with provided credentials."
         )
 
 

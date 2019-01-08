@@ -12,11 +12,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Room',
+            name='Question',
             fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=1000, primary_key=True, serialize=False)),
+                ('title', models.CharField(max_length=255)),
+                ('contents', models.TextField()),
+                ('is_completed', models.BooleanField(default=False)),
             ],
             options={
                 'abstract': False,

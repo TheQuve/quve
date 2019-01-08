@@ -5,6 +5,9 @@ from configurations import Configuration
 
 env = environ.Env()
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEBUG = True
 
 
 class BaseConfiguration(Configuration):
@@ -33,17 +36,18 @@ class BaseConfiguration(Configuration):
         'allauth.socialaccount',
         'allauth.socialaccount.providers.facebook',
         'rest_framework',
-        'rest_framework.authtoken',
         'rest_auth',
         'rest_auth.registration',
         'corsheaders',
+        'knox'
     ]
 
     LOCAL_APPS = [
         'user',
         'answer',
         'question',
-        'webrtc'
+        'webrtc',
+        'category'
     ]
 
     INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -100,16 +104,37 @@ class BaseConfiguration(Configuration):
 
     AUTH_PASSWORD_VALIDATORS = [
         {
-            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+            'NAME': (
+                'django'
+                '.contrib'
+                '.auth.password_validation'
+                '.UserAttributeSimilarityValidator'
+            ),
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'NAME': (
+                'django'
+                '.contrib'
+                '.auth'
+                '.password_validation'
+                '.MinimumLengthValidator'
+            ),
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+            'NAME': (
+                'django'
+                '.contrib'
+                '.auth.password_validation'
+                '.CommonPasswordValidator'
+            ),
         },
         {
-            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+            'NAME': (
+                'django'
+                '.contrib'
+                '.auth.password_validation'
+                '.NumericPasswordValidator'
+            ),
         },
     ]
 
@@ -157,7 +182,7 @@ class BaseConfiguration(Configuration):
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
     ACCOUNT_EMAIL_REQUIRED = False
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
-    ACCOUNT_EMAIL_VERIFICATION = None
+    ACCOUNT_EMAIL_VERIFICATION = False
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
     ACCOUNT_ADAPTER = 'user.adapters.AccountAdapter'
     # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -167,11 +192,14 @@ class BaseConfiguration(Configuration):
 
     # rest setting
     REST_FRAMEWORK = {
-        'DEFAULT_PERMISSION_CLASSES': (
-            'rest_framework.permissions.IsAuthenticated',
-        ),
+        # 'DEFAULT_PERMISSION_CLASSES': (
+        #     'rest_framework.permissions.IsAuthenticated',
+        # ),
         'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+            (
+                # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+                'knox.auth.TokenAuthentication',
+             )
         ),
     }
 

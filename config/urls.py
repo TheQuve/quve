@@ -24,7 +24,11 @@ from config import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('webrtc/', include('webrtc.urls', namespace='webrtc')),
-    path('api/v1/user/', include('user.urls', namespace='api')),
+    path('api/v1/user/', include('user.urls', namespace='user')),
+    path('api/v1/answer/', include('answer.urls', namespace='answer')),
+    path('api/v1/question/', include('question.urls', namespace='question')),
+    path('api/v1/category/', include('category.urls', namespace='category')),
+    path('api/auth', include('knox.urls')),
     url(
         regex='^rest-auth/',
         view=include('rest_auth.urls')
