@@ -199,6 +199,7 @@ class BaseConfiguration(Configuration):
             (
                 # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
                 'knox.auth.TokenAuthentication',
+                'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
              )
         ),
     }
