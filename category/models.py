@@ -14,3 +14,6 @@ class Category(TimeStampedModel):
 class CategoryMapping(TimeStampedModel):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('category', 'user')
