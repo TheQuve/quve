@@ -1,3 +1,125 @@
-from django.shortcuts import render
-
 # Create your views here.
+from rest_framework import permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from question.models import Question
+from question.serializer import ListQuestionSerializer, QuestionSerializer, \
+    InputQuestionSerializer
+
+
+class ListQuestionAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request):
+        try:
+            start = request.GET.get('start')
+            limit = request.GET.get('limit')
+            queryset = Question.objects.all()
+
+            if start and limit:
+                start, limit = int(start), int(limit)
+                queryset = queryset[start: start + limit]
+
+            serializer = ListQuestionSerializer(
+                queryset, many=True, context={'request': request})
+
+            return Response(
+                status=status.HTTP_200_OK,
+                data=serializer.data
+            )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'error': str(e)}
+            )
+
+class QuestionAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request, question_id):
+        try:
+            query = Question.objects.get(pk=question_id)
+
+            serializer = QuestionSerializer(
+                query, context={'request': request})
+            return Response(
+                status=status.HTTP_200_OK,
+                data=serializer.data
+            )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'error': str(e)}
+            )
+
+    def put(self, request, question_id):
+        try:
+            user = request.user
+
+            query = Question.objects.get(pk=question_id)
+
+            if query.writer == user:
+                serializer = InputQuestionSerializer(
+                    query, data=request.data, partial=True)
+
+                if serializer.is_valid():
+                    serializer.save(writer=user)
+                return Response(
+                    data=serializer.data,
+                    status=status.HTTP_200_OK
+                )
+
+            else:
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'error': str(e)}
+            )
+
+    def delete(self, request, question_id):
+        try:
+            user = request.user
+            query = Question.objects.get(pk=question_id)
+
+            if query.writer == user:
+                query.delete()
+                return Response(
+                    status=status.HTTP_200_OK
+                )
+            else:
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'error': str(e)}
+            )
+
+
+class InputQuestionAPI(APIView):
+    def post(self, request):
+        try:
+            user = request.user
+            serializer = InputQuestionSerializer(data=request.data)
+
+            if serializer.is_valid():
+                serializer.save(writer=user)
+
+                return Response(
+                    status=status.HTTP_200_OK,
+                    data=serializer.data
+                )
+            return Response(
+                data=serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={'error': str(e)}
+            )

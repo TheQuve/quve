@@ -75,3 +75,13 @@ class SignUpSerializer(RegisterSerializer):
         setup_user_email(request, user, [])
         user.save()
         return user
+
+
+class DetailUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            'id',
+            'username',
+        )
