@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from category.serializer import CategorySerializer
 from user.serializers import DetailUserSerializer
 from question.models import Question
 from .models import Answer
@@ -22,6 +23,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 class ListAnswerSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
+    category = CategorySerializer()
 
     class Meta:
         model = Question
@@ -29,6 +31,7 @@ class ListAnswerSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'writer',
+            'category',
             'created_at',
             'updated_at',
             'is_completed'

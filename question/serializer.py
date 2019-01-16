@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from answer.serializer import AnswerSerializer
+from category.serializer import CategorySerializer
 from user.serializers import DetailUserSerializer
 from . import models
 from answer.models import Answer
@@ -9,6 +10,7 @@ from answer.models import Answer
 class ListQuestionSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
+    category = CategorySerializer()
 
     class Meta:
         model = models.Question
@@ -16,6 +18,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'writer',
+            'category',
             'created_at',
             'updated_at',
             'is_completed'
@@ -26,6 +29,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
     answer = serializers.SerializerMethodField()
+    category = CategorySerializer()
 
     class Meta:
         model = models.Question
@@ -56,6 +60,7 @@ class InputQuestionSerializer(serializers.ModelSerializer):
         model = models.Question
         fields = (
             'title',
+            'category',
             'contents',
             'is_completed'
         )
