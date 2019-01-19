@@ -38,6 +38,7 @@ class QuestionSerializer(serializers.ModelSerializer):
             'title',
             'writer',
             'contents',
+            'category',
             'created_at',
             'updated_at',
             'is_completed',
