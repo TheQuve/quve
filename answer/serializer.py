@@ -9,15 +9,25 @@ from .models import Answer
 class AnswerSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
+    question = serializers.SerializerMethodField()
 
     class Meta:
         model = Answer
         fields = (
             'id',
             'contents',
+            'question',
             'is_selected',
             'writer'
         )
+
+    def get_question(self, obj):
+        return {
+            'question': {
+                'id': obj.question.id,
+                'title': obj.question.title
+            }
+        }
 
 
 class ListAnswerSerializer(serializers.ModelSerializer):
