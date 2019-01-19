@@ -27,7 +27,9 @@ class ListAnswerAPI(APIView):
 
             return Response(
                 status=status.HTTP_200_OK,
-                data=serializer.data
+                data={
+                    'data': serializer.data
+                }
             )
         except Exception as e:
             return Response(
@@ -125,6 +127,5 @@ class InputAnswerAPI(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
                 data={'error': str(e)}
             )
-from django.shortcuts import render
 
 # Create your views here.
