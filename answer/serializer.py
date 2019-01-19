@@ -22,12 +22,14 @@ class AnswerSerializer(serializers.ModelSerializer):
         )
 
     def get_question(self, obj):
-        return {
-                'id': obj.question.id,
-                'title': obj.question.title
-        }
+        if 'request' in self.context:
+            return {
+                    'id': obj.question.id,
+                    'title': obj.question.title
+            }
+        return {}
 
-
+    
 class ListAnswerSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
