@@ -26,8 +26,11 @@ class ListQuestionAPI(APIView):
 
             return Response(
                 status=status.HTTP_200_OK,
+                # data={
+                #     'data': serializer.data
+                # }
                 data={
-                    'data': serializer.data
+                    "data": "Test"
                 }
             )
         except Exception as e:
