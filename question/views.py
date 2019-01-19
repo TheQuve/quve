@@ -15,7 +15,7 @@ class ListQuestionAPI(APIView):
         try:
             start = request.GET.get('start')
             limit = request.GET.get('limit')
-            queryset = Question.objects.filter(is_completed=False)
+            queryset = Question.objects.all()
 
             if start and limit:
                 start, limit = int(start), int(limit)
