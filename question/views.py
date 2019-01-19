@@ -27,7 +27,7 @@ class ListQuestionAPI(APIView):
             return Response(
                 status=status.HTTP_200_OK,
                 data={
-                    'payload': serializer.data
+                    'data': serializer.data
                 }
 
             )
