@@ -23,10 +23,8 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     def get_question(self, obj):
         return {
-            'question': {
                 'id': obj.question.id,
                 'title': obj.question.title
-            }
         }
 
 
