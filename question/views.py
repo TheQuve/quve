@@ -15,7 +15,20 @@ class ListQuestionAPI(APIView):
         try:
             start = request.GET.get('start')
             limit = request.GET.get('limit')
+            category = request.GET.get('category')
+            point = request.GET.get('point')
+            date = request.GET.get('date')
+
             queryset = Question.objects.all()
+
+            if point:
+                queryset = queryset.order_by('-point')
+
+            if date:
+                queryset = queryset.order_by('-created_at')
+
+            if category:
+                queryset = queryset.filter(category=category)
 
             if start and limit:
                 start, limit = int(start), int(limit)
@@ -35,6 +48,7 @@ class ListQuestionAPI(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
                 data={'error': str(e)}
             )
+
 
 class QuestionAPI(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
@@ -66,10 +80,17 @@ class QuestionAPI(APIView):
                     query, data=request.data, partial=True)
 
                 if serializer.is_valid():
+                    point = request.data['point'] - query.point
+                    user.point = user.point - point
+                    user.save()
                     serializer.save(writer=user)
+                    return Response(
+                        data=serializer.data,
+                        status=status.HTTP_200_OK
+                    )
                 return Response(
                     data=serializer.data,
-                    status=status.HTTP_200_OK
+                    status=status.HTTP_400_BAD_REQUEST
                 )
 
             else:
@@ -88,6 +109,8 @@ class QuestionAPI(APIView):
             query = Question.objects.get(pk=question_id)
 
             if query.writer == user:
+                user.point = user.point + query.point
+                user.save()
                 query.delete()
                 return Response(
                     status=status.HTTP_200_OK
@@ -104,6 +127,8 @@ class QuestionAPI(APIView):
 
 
 class InputQuestionAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
     def post(self, request):
         try:
             user = request.user
@@ -111,7 +136,8 @@ class InputQuestionAPI(APIView):
 
             if serializer.is_valid():
                 serializer.save(writer=user)
-
+                user.point = user.point - request.data['point']
+                user.save()
                 return Response(
                     status=status.HTTP_200_OK,
                     data=serializer.data

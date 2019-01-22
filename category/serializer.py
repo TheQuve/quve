@@ -14,6 +14,17 @@ class CategorySerializer(serializers.ModelSerializer):
         )
 
 
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Region
+        fields = (
+            'id',
+            'name',
+            'latitude',
+            'longitude'
+        )
+
+
 class CategoryMappingSerializer(serializers.ModelSerializer):
 
     category = CategorySerializer()

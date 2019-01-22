@@ -1,6 +1,6 @@
 from django.db import models
 
-from category.models import Category
+from category.models import Category, Region
 from user.models import TimeStampedModel, User
 
 
@@ -13,6 +13,10 @@ class Question(TimeStampedModel):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True
     )
+    point = models.IntegerField(default=0)
+    limit = models.IntegerField(default=1800)
+    is_open = models.BooleanField(default=True)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title

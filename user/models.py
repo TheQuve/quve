@@ -27,7 +27,7 @@ class User(AbstractUser, TimeStampedModel):
     phone = models.CharField(max_length=140, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
     profile_image = models.ImageField(null=True)
-    point = models.IntegerField(default=0)
+    point = models.IntegerField(default=500000000)
 
     def __str__(self):
         return self.email

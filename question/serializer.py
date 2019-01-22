@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from answer.serializer import AnswerSerializer
-from category.serializer import CategorySerializer
+from category.serializer import CategorySerializer, RegionSerializer
 from user.serializers import DetailUserSerializer
 from . import models
 from answer.models import Answer
@@ -11,6 +11,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
     category = CategorySerializer()
+    region = RegionSerializer()
 
     class Meta:
         model = models.Question
@@ -21,6 +22,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'category',
             'created_at',
             'updated_at',
+            'region',
+            'is_open',
+            'limit',
+            'point',
             'is_completed'
         )
 
@@ -30,6 +35,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     writer = DetailUserSerializer()
     answer = serializers.SerializerMethodField()
     category = CategorySerializer()
+    region = RegionSerializer()
 
     class Meta:
         model = models.Question
@@ -41,8 +47,12 @@ class QuestionSerializer(serializers.ModelSerializer):
             'category',
             'created_at',
             'updated_at',
-            'is_completed',
-            'answer'
+            'region',
+            'is_open',
+            'limit',
+            'is_completed'
+            'answer',
+            'point'
         )
 
     def get_answer(self, obj):
@@ -63,5 +73,8 @@ class InputQuestionSerializer(serializers.ModelSerializer):
             'title',
             'category',
             'contents',
+            'point',
+            'limit',
+            'is_open',
             'is_completed'
         )
