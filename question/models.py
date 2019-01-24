@@ -16,8 +16,8 @@ class Question(TimeStampedModel):
     point = models.IntegerField(default=0)
     limit = models.IntegerField(default=1800)
     is_open = models.BooleanField(default=True)
-    user_class = models.CharField(blank=True)
-    region = models.CharField(blank=True)
+    user_class = models.CharField(max_length=64, blank=True)
+    region = models.CharField(max_length=64, blank=True)
 
     def __str__(self):
         return self.title

@@ -11,7 +11,6 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
     category = CategorySerializer()
-    region = RegionSerializer()
 
     class Meta:
         model = models.Question
@@ -25,6 +24,8 @@ class ListQuestionSerializer(serializers.ModelSerializer):
             'region',
             'is_open',
             'limit',
+            'user_class',
+            'region',
             'point',
             'is_completed'
         )
@@ -35,7 +36,6 @@ class QuestionSerializer(serializers.ModelSerializer):
     writer = DetailUserSerializer()
     answer = serializers.SerializerMethodField()
     category = CategorySerializer()
-    region = RegionSerializer()
 
     class Meta:
         model = models.Question
@@ -47,6 +47,8 @@ class QuestionSerializer(serializers.ModelSerializer):
             'category',
             'created_at',
             'updated_at',
+            'region',
+            'user_class',
             'region',
             'is_open',
             'limit',
@@ -75,6 +77,8 @@ class InputQuestionSerializer(serializers.ModelSerializer):
             'contents',
             'point',
             'limit',
+            'user_class',
+            'region',
             'is_open',
             'is_completed'
         )
