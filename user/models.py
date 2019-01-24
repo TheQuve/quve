@@ -11,6 +11,11 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class UserClass(TimeStampedModel):
+    name = models.CharField(max_length=64)
+    rank = models.IntegerField()
+
+
 class User(AbstractUser, TimeStampedModel):
     GENDER_CHOICES = (
         ('male', 'Male'),
@@ -28,6 +33,8 @@ class User(AbstractUser, TimeStampedModel):
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
     profile_image = models.ImageField(null=True)
     point = models.IntegerField(default=500000000)
+    user_class = models.ForeignKey(
+        UserClass, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.email

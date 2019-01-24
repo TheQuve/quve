@@ -1,10 +1,13 @@
-from rest_framework import permissions, generics
+from rest_framework import permissions, generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from user.models import UserClass, User
 from .serializers import (
     CreateUserSerializer,
     UserSerializer,
     LoginUserSerializer,
-)
+    UserClassSerializer)
 from knox.models import AuthToken
 
 from allauth.socialaccount.providers.facebook.views import (
@@ -51,9 +54,77 @@ class LoginAPI(generics.GenericAPIView):
         )
 
 
-class UserAPI(generics.RetrieveAPIView):
+class UserAPI(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = UserSerializer
 
-    def get_object(self):
-        return self.request.user
+    def get(self, request, user_id):
+        try:
+            query = User.objects.get(pk=user_id)
+
+            if query == request.user:
+
+                serializer = UserSerializer(
+                    query, context={'request': request})
+                return Response(
+                    status=status.HTTP_200_OK,
+                    data={
+                        'data': serializer.data
+                    }
+                )
+            else:
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={
+                    'error': str(e)
+                }
+            )
+
+    def put(self, request, user_id):
+        try:
+            query = User.objects.get(pk=user_id)
+
+            if query == request.user:
+                serializer = UserSerializer(
+                    query, data=request.data, partial=True)
+                if serializer.is_valid():
+                    serializer = UserSerializer(
+                        query, context={'request': request})
+                    return Response(
+                        status=status.HTTP_200_OK,
+                        data={
+                            'data': serializer.data
+                        }
+                    )
+                return Response(
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            else:
+                return Response(
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+        except Exception as e:
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST,
+                data={
+                    'error': str(e)
+                }
+            )
+
+
+class UserClassAPI(APIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+
+    def get(self, request):
+        queryset = UserClass.objects.all()
+        serializer = UserClassSerializer(
+            queryset, many=True, context={'request': request})
+        return Response(
+            status=status.HTTP_200_OK,
+            data={
+                'data': serializer.data
+            }
+        )
