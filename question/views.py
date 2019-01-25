@@ -130,24 +130,25 @@ class InputQuestionAPI(APIView):
     permission_classes = [permissions.IsAuthenticated, ]
 
     def post(self, request):
-        try:
-            user = request.user
-            serializer = InputQuestionSerializer(data=request.data)
+        # try:
+        user = request.user
+        serializer = InputQuestionSerializer(data=request.data)
 
-            if serializer.is_valid():
-                serializer.save(writer=user)
-                user.point = user.point - request.data['point']
-                user.save()
-                return Response(
-                    status=status.HTTP_200_OK,
-                    data=serializer.data
-                )
+        if serializer.is_valid():
+            serializer.save(writer=user)
+            user.point = user.point - int(request.data['point'])
+            user.save()
             return Response(
-                data=serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_200_OK,
+                data=serializer.data
             )
-        except Exception as e:
-            return Response(
-                status=status.HTTP_400_BAD_REQUEST,
-                data={'error': str(e)}
-            )
+        print(serializer.errors)
+        return Response(
+            data=serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+        # except Exception as e:
+        #     return Response(
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #         data={'error': str(e)}
+        #     )
