@@ -131,7 +131,10 @@ class InputQuestionAPI(APIView):
 
     def post(self, request):
         # try:
-        print(request.data)
+        request.data['category'] = int(request.data['category'])
+        request.data['is_open'] = True
+        request.data['is_completed'] = False
+        request.data['point'] = int(request.data['point'])
         user = request.user
         serializer = InputQuestionSerializer(data=request.data)
 
@@ -143,7 +146,6 @@ class InputQuestionAPI(APIView):
                 status=status.HTTP_200_OK,
                 data=serializer.data
             )
-        print(serializer.errors)
         return Response(
             data=serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
