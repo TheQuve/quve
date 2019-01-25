@@ -131,6 +131,7 @@ class InputQuestionAPI(APIView):
 
     def post(self, request):
         # try:
+        print(request.data)
         user = request.user
         serializer = InputQuestionSerializer(data=request.data)
 
