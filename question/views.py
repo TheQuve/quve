@@ -133,6 +133,7 @@ class InputQuestionAPI(APIView):
         # try:
         request.data['category'] = int(request.data['category'])
         request.data['is_open'] = True
+        request.data['limit'] = int(request.data['limit'])
         request.data['is_completed'] = False
         request.data['point'] = int(request.data['point'])
         user = request.user
