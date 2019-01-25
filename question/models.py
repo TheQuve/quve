@@ -6,7 +6,7 @@ from user.models import TimeStampedModel, User
 
 class Question(TimeStampedModel):
     title = models.CharField(max_length=255)
-    contents = models.TextField()
+    contents = models.TextField(blank=True, default="")
     writer = models.ForeignKey(
         User, on_delete=models.CASCADE)
     is_completed = models.BooleanField(default=False)

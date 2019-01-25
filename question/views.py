@@ -148,6 +148,7 @@ class InputQuestionAPI(APIView):
                 status=status.HTTP_200_OK,
                 data=serializer.data
             )
+        print()
         return Response(
             data=serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
