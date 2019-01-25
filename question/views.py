@@ -131,6 +131,7 @@ class InputQuestionAPI(APIView):
 
     def post(self, request):
         # try:
+        print(request.data)
         request.data['category'] = int(request.data['category'])
         request.data['is_open'] = True
         request.data['limit'] = int(request.data['limit'])
