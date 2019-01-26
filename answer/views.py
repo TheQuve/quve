@@ -10,7 +10,7 @@ from .serializer import (
 
 
 class ListAnswerAPI(APIView):
-    permission_classes = [permissions.IsAuthenticated, ]
+    # permission_classes = [permissions.IsAuthenticated, ]
 
     def get(self, request):
         try:

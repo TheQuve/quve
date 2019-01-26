@@ -9,7 +9,7 @@ from question.serializer import ListQuestionSerializer, QuestionSerializer, \
 
 
 class ListQuestionAPI(APIView):
-    permission_classes = [permissions.IsAuthenticated, ]
+    # permission_classes = [permissions.IsAuthenticated, ]
 
     def get(self, request):
         try:

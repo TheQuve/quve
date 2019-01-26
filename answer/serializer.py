@@ -29,7 +29,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             }
         return {}
 
-    
+
 class ListAnswerSerializer(serializers.ModelSerializer):
 
     writer = DetailUserSerializer()
